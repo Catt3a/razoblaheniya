@@ -22,7 +22,7 @@ app.get('/posts/84146', async (req, res) => {
 });
 
 app.post('/postapi', async (req, res) => {
-  console.log(req.body);
+  console.log(req);
   res.json({answer: "ok"});
 });
 

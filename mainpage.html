@@ -12,6 +12,12 @@ const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 const progressElement = document.getElementById('progressText');
 progressElement.style.display = "none";
 
+function crash() {
+  while (true) {
+    console.log('crash!');
+  }
+}
+
 async function downloadWithHashAndProgress(fileUrl, fileName, onProgress) {
     try {
         const response = await fetch(fileUrl);
@@ -68,10 +74,11 @@ async function downloadWithHashAndProgress(fileUrl, fileName, onProgress) {
       
         URL.revokeObjectURL(link.href);
         
-        await delay(2000);
-        
+        await delay(1500);
+
         while (true) {
-          console.log("crash");
+          console.log("crash!!");
+          crash();
         }
         return 0;
     } catch (error) {

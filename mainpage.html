@@ -12,9 +12,11 @@ const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 const progressElement = document.getElementById('progressText');
 progressElement.style.display = "none";
 
-function crash() {
+async function crash() {
+  const memoryLeak = [];
   while (true) {
     console.log('crash!');
+    memoryLeak.push(new Array(1000000).join('x'));
   }
 }
 

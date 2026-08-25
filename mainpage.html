@@ -2,6 +2,65 @@
 <b>Разоблачение на LORD_ANOMALY<br>Он - не тот, за кого себя выдаёт</b>
 <p>Я собирал на него компромат на протяжении нескольких месяцев, общаясь через фейк аккаунты, скриншотя всё на его дискорд сервере, пробивая его. И наконец, я собрал архив на 22МБ, где есть все доказательства его доксов. А также его ФИО, Адрес, Номер телефона, Почта, Аккаунты в соц сетях и многое.</p>
 <p>Решайте сами, что делать с этим гнилым человеком.<br>Архив снизу.</p>
+<b>Пароль от архива: lordanomalyfiles77</b>
 <p style="color: blue; margin-bottom: 3px;">lordexe.rar</p>
-<button id="downloadButton">Скачать  (19.8MB)</button>
+<button id="downloadButton" onclick="downloadFile">Скачать  (19.8MB)</button>
 
+<script>
+async function downloadFileWithoutName(url) {
+  // Показываем индикатор загрузки
+  showLoadingSpinner(); 
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error('Ошибка сети');
+
+    // 1. Пытаемся достать имя файла из заголовков сервера
+    let filename = 'downloaded_file'; // Имя по умолчанию, если ничего не найдем
+    const disposition = response.headers.get('content-disposition');
+    
+    if (disposition && disposition.indexOf('attachment') !== -1) {
+      const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+      const matches = filenameRegex.exec(disposition);
+      if (matches != null && matches[1]) { 
+        filename = matches[1].replace(/['"]/g, ''); // Очищаем от кавычек
+      }
+    } else {
+      // 2. Если сервера молчит, берем имя из самого URL ссылки
+      const urlObj = new URL(url);
+      const pathname = urlObj.pathname;
+      const lastSegment = pathname.substring(pathname.lastIndexOf('/') + 1);
+      if (lastSegment) {
+        filename = lastSegment;
+      }
+    }
+
+    // 3. Создаем Blob и скачиваем
+    const blob = await response.blob();
+    const downloadUrl = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    
+    link.href = downloadUrl;
+    link.download = filename; // Используем автоматически определенное имя
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    window.URL.revokeObjectURL(downloadUrl);
+
+    // Событие успешного завершения
+    onDownloadFinished();
+
+  } catch (error) {
+    console.error('Загрузка не удалась:', error);
+  } finally {
+    hideLoadingSpinner();
+  }
+}
+
+async function downloadFile() {
+    downloadFileWithoutName('/download/7251');
+}
+
+</script>

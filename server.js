@@ -6,8 +6,6 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 const frontend = fs.readFileSync('mainpage.html', 'utf8');
 
-const entries = fs.readdirSync(dirPath, { withFileTypes: true });
-  
 function getFirstFileSync(dirPath) {
   const entries = fs.readdirSync(dirPath, { withFileTypes: true });
   const firstFile = entries.find(entry => entry.isFile());

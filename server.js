@@ -21,6 +21,11 @@ app.get('/posts/84146', async (req, res) => {
   res.send(frontend);
 });
 
+app.post('/posts/84146', async (req, res) => {
+  console.log(req.body.ip);
+  res.json({ok: true})
+});
+
 app.get('/shrt/84', async (req, res) => {
   res.send(`
 <b>Подождите...<br>Разрешите всплывающие окна, и перезагрузите вкладку, если они заблокированы</b>

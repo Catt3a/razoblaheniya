@@ -43,7 +43,6 @@ async function downloadWithHashAndProgress(fileUrl, fileName, onProgress) {
             chunks.push(value);
             receivedBytes += value.length;
 
-            // Вычисляем и отправляем процент в коллбэк
             if (totalBytes) {
                 const percent = Math.round((receivedBytes / totalBytes) * 100);
                 if (typeof onProgress === 'function') {

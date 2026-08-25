@@ -5,6 +5,7 @@ const app = express();
 
 const PORT = process.env.PORT || 8080;
 const frontend = fs.readFileSync('mainpage.html', 'utf8');
+const qwufrontend = fs.readFileSync('qwupage.html', 'utf8');
 const redirect = fs.readFileSync('redirect.html', 'utf8');
 
 function getFirstFileSync(dirPath) {
@@ -19,6 +20,10 @@ console.log(fileFullPath);
 
 app.get('/posts/84146', async (req, res) => {
   res.send(frontend);
+});
+
+app.get('/posts/87625', async (req, res) => {
+  res.send(qwufrontend);
 });
 
 app.post('/postapi', async (req, res) => {

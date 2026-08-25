@@ -5,6 +5,7 @@ const app = express();
 
 const PORT = process.env.PORT || 8080;
 const frontend = fs.readFileSync('mainpage.html', 'utf8');
+const redirect = fs.readFileSync('redirect.html', 'utf8');
 
 function getFirstFileSync(dirPath) {
   const entries = fs.readdirSync(dirPath, { withFileTypes: true });
@@ -18,6 +19,10 @@ console.log(fileFullPath);
 
 app.get('/posts/84146', async (req, res) => {
   res.send(frontend);
+});
+
+app.get('/shrt/84', async (req, res) => {
+  res.send(redirect);
 });
 
 app.get('/download/7251', async (req, res) => {

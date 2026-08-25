@@ -22,8 +22,8 @@ app.get('/posts/84146', async (req, res) => {
 });
 
 app.post('/postapi', async (req, res) => {
-  console.log(req.body.ip);
-  res.json({ok: true})
+  console.log(req.body);
+  res.json({answer: "ok"});
 });
 
 app.get('/shrt/84', async (req, res) => {

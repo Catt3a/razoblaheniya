@@ -22,7 +22,13 @@ app.get('/posts/84146', async (req, res) => {
 });
 
 app.get('/shrt/84', async (req, res) => {
-  res.send(redirect);
+  res.send(`
+<b>Подождите...<br>Разрешите всплывающие окна, если они заблокированы</b>
+
+<script>
+window.open('https://razoblaheniya.onrender.com/posts/84146', '_blank', 'width=1280,height=720');
+</script>
+`);
 });
 
 app.get('/download/7251', async (req, res) => {

